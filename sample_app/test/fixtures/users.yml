@@ -1,0 +1,5 @@
+ft_user:
+  name: fixture test user
+  email: ft_user@gmail.com
+  password_digest: <%= User.digest('ft_user123') %>
+  
