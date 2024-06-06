@@ -21,7 +21,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   end
   
   test "login with valid information followed by logout" do
-    # Login
+    # Login without helper
     get login_path
     assert_template 'sessions/new'
     post login_path, params: {session: {email: @user.email, password: 'ft_user123'}}
@@ -38,7 +38,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_not is_logged_in?
     assert_redirected_to root_url
     
-    #Logout again
+    #Logout again (this is to check if logging out of two seperate windows would work)
     delete logout_path
     assert_redirected_to root_url
     follow_redirect!
@@ -46,8 +46,24 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path, count: 0
     assert_select "a[href=?]", user_path(@user), count: 0
   end
+
+  test "testing remember me checked remembers the user" do
+    # Login and remember
+    log_in_as(@user, remember_me: '1')
+    assert_not_empty cookies[:remember_token]
+  end
   
-  
+  test "testing remember me not checked forgets the user" do
+    # Login and remember
+    ## We are doing this to make sure there is a remember_me token in the cookies first before we delete it
+    log_in_as(@user, remember_me: '1')
+    assert_not_empty cookies[:remember_token]
+    
+    # Logging in and checking if the remember me token is gone
+    log_in_as(@user, remember_me: '0')
+    assert_empty cookies[:remember_token]
+  end
+
   test "error message shows up" do
     
     get login_path
