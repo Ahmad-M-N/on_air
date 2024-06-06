@@ -1,0 +1,19 @@
+current directory: /home/ubuntu/Projects/on_air/sample_app/vendor/bundle/ruby/2.4.0/gems/byebug-11.1.3/ext/byebug
+/home/ubuntu/.asdf/installs/ruby/2.4.10/bin/ruby -r ./siteconf20240606-3521-143hds2.rb extconf.rb
+creating Makefile
+
+current directory: /home/ubuntu/Projects/on_air/sample_app/vendor/bundle/ruby/2.4.0/gems/byebug-11.1.3/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /home/ubuntu/Projects/on_air/sample_app/vendor/bundle/ruby/2.4.0/gems/byebug-11.1.3/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.so
+
+current directory: /home/ubuntu/Projects/on_air/sample_app/vendor/bundle/ruby/2.4.0/gems/byebug-11.1.3/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20240606-3521-ruo168/byebug
