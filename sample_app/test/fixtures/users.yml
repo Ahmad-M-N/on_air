@@ -2,4 +2,21 @@ ft_user:
   name: fixture test user
   email: ft_user@gmail.com
   password_digest: <%= User.digest('ft_user123') %>
+  admin: true
   
+joker:
+  name: Joker
+  email: joker@gotham.com
+  password_digest: <%= User.digest('kill_batman2day') %>
+
+batman:
+  name: Batman
+  email: batman@gotham.com
+  password_digest: <%= User.digest('joker_be_my_friend_please') %>
+
+<% 34.times do |i| %>
+user<%="#{i+1}"%>:
+  name: <%= "name#{i+1}" %>
+  email: <%= "email#{i+1}@onair.com" %>
+  password_digest: <%= User.digest('foobar') %>
+<% end %>

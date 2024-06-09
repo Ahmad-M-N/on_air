@@ -24,7 +24,6 @@ module SessionsHelper
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.encrypted[:user_id])
-      
       user ||= User.find_by(id: user_id)
       if user && user.authenticated?(cookies[:remember_token])
         log_in(user)
@@ -44,5 +43,21 @@ module SessionsHelper
     session.delete(:user_id)
     @current_user = nil
   end
+
+  # Returns true if the given user is the current user
+  def current_user?(user)
+    !user.nil? && @current_user == user
+  end
+
+  # Stores the intended location of a not allowed get request
+  def store_intended_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
   
+  # Redirects the user to the stored intended location
+  def redirect_back_or(default)
+    redirect_to (session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
 end
