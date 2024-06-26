@@ -3,20 +3,28 @@ ft_user:
   email: ft_user@gmail.com
   password_digest: <%= User.digest('ft_user123') %>
   admin: true
+  activated: true
+  activated_at: <%= Time.zone.now %>
   
 joker:
   name: Joker
   email: joker@gotham.com
-  password_digest: <%= User.digest('kill_batman2day') %>
+  password_digest: <%= User.digest('kill_Batman2day') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 
 batman:
   name: Batman
   email: batman@gotham.com
-  password_digest: <%= User.digest('joker_be_my_friend_please') %>
+  password_digest: <%= User.digest('j_be_my_friend_please') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 
 <% 34.times do |i| %>
 user<%="#{i+1}"%>:
   name: <%= "name#{i+1}" %>
   email: <%= "email#{i+1}@onair.com" %>
   password_digest: <%= User.digest('foobar') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
 <% end %>

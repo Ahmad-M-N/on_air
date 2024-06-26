@@ -7,13 +7,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get redirected to proper edit page when wrong user tries to get to the edit page" do
-    log_in_as(@other_user, password: 'kill_batman2day')
+    log_in_as(@other_user, password: 'kill_Batman2day')
     get edit_user_path(@user)
     assert_redirected_to edit_user_url(@other_user)
   end
 
   test "should get redirected to proper edit page when wrong user tries to update the profile" do
-    log_in_as(@other_user, password: 'kill_batman2day')
+    log_in_as(@other_user, password: 'kill_Batman2day')
     patch user_path(@user), params: { user: { name: @user.name, email: @user.email } }
     assert_redirected_to edit_user_url(@other_user)
     @user.reload
@@ -29,7 +29,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get redirected to root if delete attempted as non-admin user" do
-    log_in_as(@other_user, password: 'kill_batman2day')
+    log_in_as(@other_user, password: 'kill_Batman2day')
     assert_no_difference "User.count" do
       delete user_path(@user)
     end

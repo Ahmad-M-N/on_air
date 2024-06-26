@@ -24,7 +24,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
   end
 
   test "non-admin should not see delete at index" do
-    log_in_as(@non_admin, password: "kill_batman2day")
+    log_in_as(@non_admin, password: "kill_Batman2day")
     get users_path
     assert_select 'a', text: 'delete', count: 0
   end
