@@ -1,14 +1,23 @@
 class User < ApplicationRecord
   
-  attr_accessor :remember_token, :activation_token
+  # Associations
+  has_many :microposts, dependent: :destroy
+
+  # Before actions
   before_save {self.email.downcase!}
   before_create :create_activation_digest
+
+  # Validations
   validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: {maximum: 255}, format: {with: VALID_EMAIL_REGEX}, uniqueness: true
   has_secure_password
   validates :password, length: {minimum: 6}, presence: true, allow_nil: true
-  
+
+  # Attribure accessors
+  attr_accessor :remember_token, :activation_token
+
+  # Model functions
   # Returns the hash digest of the given string
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
@@ -36,6 +45,22 @@ class User < ApplicationRecord
     digest = self.send("#{attribute}_digest")
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
+  end
+
+  # Activates a user
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # Sends the activation email
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
+  # Defines a proto-feed
+  def feed
+    Micropost.where("user_id = ?", id)
   end
 
   private

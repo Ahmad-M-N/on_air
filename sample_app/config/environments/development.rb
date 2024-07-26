@@ -1,4 +1,5 @@
 Rails.application.configure do
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -29,7 +30,7 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
-  host = "localhost:3000"
+  host = "ec2-13-59-142-158.us-east-2.compute.amazonaws.com:3000"
   config.action_mailer.default_url_options = { host: host, protocol: 'http'}
   
   config.action_mailer.perform_caching = false
@@ -54,4 +55,24 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # For email service through Amazon SES
+  config.action_mailer.delivery_method = :aws_sdk
+
+  Aws.config.update(
+    :access_key_id => '',      # FILL THIS WITH ACTUAL KEY ID
+    :secret_access_key => '',  # FILL THIS WITH ACTUAL KEY ID
+    :region => 'us-east-2'
+  )
+
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_caching = false
+  # config.action_mailer.default_url_options = { host: 'ec2-13-59-142-158.us-east-2.compute.amazonaws.com', protocol: "http" }
+  config.action_mailer.perform_deliveries = true
+
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.perform_caching = false
+  # config.action_mailer.default_url_options = { host: 'ec2-13-59-142-158.us-east-2.compute.amazonaws.com', protocol: "http" }
+  # config.action_mailer.perform_deliveries = true
+
 end

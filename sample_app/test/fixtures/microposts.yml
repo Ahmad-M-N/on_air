@@ -1,0 +1,40 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: "one"
+  created_at: <%= 10.days.ago %>
+  user: ft_user
+
+two:
+  content: "two"
+  created_at: <%= 30.days.ago %>
+  user: ft_user
+
+three:
+  content: "three"
+  created_at: <%= 1.day.ago %>
+  user: ft_user
+
+four:
+  content: "four"
+  created_at: <%= 2.day.ago %>
+  user: ft_user
+
+five:
+  content: "five"
+  created_at: <%= 1.day.ago %>
+  user: ft_user
+
+most_recent:
+  content: "most recent"
+  created_at: <%= 0.seconds.ago %>
+  user: ft_user
+
+# Generating multiple posts for ft_user
+<% (2..50).each do |t| %>
+post_<%=t%>:
+  content: <%= t.to_s*10%>
+  created_at: <%= t.seconds.ago %>
+  user: ft_user
+<% end %>
+

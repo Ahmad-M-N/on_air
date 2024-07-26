@@ -15,12 +15,13 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page], per_page: 10)
   end
   
   def create
     @user = User.new(user_params)
     if @user.save
-      UserMailer.account_activation(@user).deliver_now
+      @user.send_activation_email
       flash[:info] = "Please check your email to activate your account"
       redirect_to root_url
     else
@@ -50,27 +51,22 @@ class UsersController < ApplicationController
 
   
   private
-    
-    def enforce_log_in
-      if !logged_in?
-        store_intended_location
-        flash[:danger] = "Please login first"
-        redirect_to login_url
-      end
+
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
+    # Before filters
+    ## Makes sure only a logged in user can make changes to only their account
     def authorize_edit
       if !current_user?(User.find(params[:id]))
         redirect_to edit_user_url(current_user.id)
       end
     end
 
+    ## Makes sure the logged in user is an admin
     def authorize_admin_access
       redirect_to(root_url) unless current_user.admin?
-    end
-
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
   
 end
