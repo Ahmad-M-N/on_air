@@ -7,4 +7,5 @@ Password: testPass123**
 ![Local Image](./Documentation/Login.png) 
 Use the credentials above to login.  
 Feel free to play around  
+  
 ![Local Image](./Documentation/Chat.png)
